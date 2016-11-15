@@ -3,7 +3,7 @@ package org.pontis.hackathon.datamodel;
 import java.util.Date;
 
 public class SocialMessage {
-	public static final String HEADER = "time,msgId,prevMsgId,from,prevUser,popularity,text\n";
+	public static final String HEADER = "time\tmsgId\tprevMsgId\tfrom\tprevUser\tpopularity\ttext\n";
 	Date timeStamp;
 	String messageId;
 	String messageText;
@@ -89,10 +89,10 @@ public class SocialMessage {
 
 	public String toCSV() {
 		StringBuilder sb = new StringBuilder();
-		sb.append(timeStamp.getTime()).append(',').append(messageId).append(',').append(prevMessageId);
-		sb.append(',').append(fromUser).append(',').append(prevMessageSender);
-		sb.append(',').append(messagePopularity).append(',');		
-		sb.append(messageText.replaceAll("\n", "\\n")).append('\n');
+		sb.append(timeStamp.getTime()).append('\t').append(messageId).append('\t').append(prevMessageId==null?"":prevMessageId);
+		sb.append('\t').append(fromUser).append('\t').append(prevMessageSender==null?"":prevMessageSender);
+		sb.append('\t').append(messagePopularity).append('\t');		
+		sb.append(messageText.replaceAll("\n", " ")).append('\n');
 		return sb.toString();
 	}
 	
