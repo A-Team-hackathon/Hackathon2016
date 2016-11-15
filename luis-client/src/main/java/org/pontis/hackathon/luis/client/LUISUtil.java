@@ -43,5 +43,29 @@ public class LUISUtil {
 		}
 		return result;
 	}
+	
+	public static IntentAndEntities getTopIntentAndEntities(String input) {
+		IntentAndEntities result = new IntentAndEntities();
+		try {
+			LUISResponse response = client.get().predict(input);
+			LUISIntent topIntent = response.getTopIntent();
+			if (topIntent != null && topIntent.getScore() > THRESHOLD) {
+				result.intent = topIntent.getName();
+			}
 
+			for (LUISEntity luisEntity : response.getEntities()) {
+				if (!luisEntity.getType().startsWith("builtin") && luisEntity.getScore() > THRESHOLD) {
+					result.entities.add(luisEntity.getType());
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	public static class IntentAndEntities {
+		public String intent;
+		public List<String> entities = new ArrayList<>();
+	}
 }
