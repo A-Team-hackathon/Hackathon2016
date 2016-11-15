@@ -1,0 +1,7 @@
+{
+	"modelPackage" : "org.pontis.hackathon.textanalytics.client.model",
+	"apiPackage" : "org.pontis.hackathon.textanalytics.client.api",
+	"groupId" : "org.pontis.hackathon",
+	"artifactId" : "textanalytics.client",
+	"invokerPackage" : "org.pontis.hackathon"
+}
