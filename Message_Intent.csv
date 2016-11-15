@@ -1,0 +1,13 @@
+Message ID,Intent
+T1,Government
+T2,Government
+F1,Network Problem
+F1,Mobile Problem
+F2,Network Problem
+F3,Wi-Fi Problem
+T3,Software Failure
+T3,Telco
+T4,Network Problem
+T4,Telco
+F3,Network Problem
+F3,Telco

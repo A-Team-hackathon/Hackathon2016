@@ -3,12 +3,13 @@ package org.pontis.hackathon.datamodel;
 import java.util.Date;
 
 public class SocialMessage {
+	public static final String HEADER = "time,msgId,prevMsgId,from,prevUser,popularity,text\n";
 	Date timeStamp;
-	long messageId;
+	String messageId;
 	String messageText;
 	String fromUser;
 	ExternalIdType externalIdType;
-	Long prevMessageId;
+	String prevMessageId;
 	String prevMessageSender;
 	Integer messagePopularity;
 	
@@ -20,11 +21,11 @@ public class SocialMessage {
 		this.timeStamp = timeStamp;
 	}
 
-	public long getMessageId() {
+	public String getMessageId() {
 		return messageId;
 	}
 
-	public void setMessageId(long messageId) {
+	public void setMessageId(String messageId) {
 		this.messageId = messageId;
 	}
 
@@ -52,11 +53,11 @@ public class SocialMessage {
 		this.externalIdType = externalIdType;
 	}
 
-	public Long getPrevMessageId() {
+	public String getPrevMessageId() {
 		return prevMessageId;
 	}
 
-	public void setPrevMessageId(Long prevMessageId) {
+	public void setPrevMessageId(String prevMessageId) {
 		this.prevMessageId = prevMessageId;
 	}
 
@@ -84,4 +85,15 @@ public class SocialMessage {
 		sb.append(messageText).append('\n');
 		return sb.toString();
 	}
+	
+
+	public String toCSV() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(timeStamp.getTime()).append(',').append(messageId).append(',').append(prevMessageId);
+		sb.append(',').append(fromUser).append(',').append(prevMessageSender);
+		sb.append(',').append(messagePopularity).append(',');		
+		sb.append(messageText.replaceAll("\n", "\\n")).append('\n');
+		return sb.toString();
+	}
+	
 }

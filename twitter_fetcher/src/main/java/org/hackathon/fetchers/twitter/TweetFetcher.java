@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.hackathon.fetchers.ISocialGetter;
 import org.pontis.hackathon.datamodel.SocialMessage;
 import org.springframework.social.twitter.api.SearchParameters;
 import org.springframework.social.twitter.api.SearchParameters.ResultType;
@@ -26,38 +27,15 @@ public class TweetFetcher implements ISocialGetter {
 		}
 	}
 
-	@Override
-	public List<SocialMessage> getNextMessages() {
-		List<SocialMessage> result = new ArrayList<SocialMessage>();
-		SearchParameters sp = new SearchParameters("from:" + channelToFollow);
-		sp.sinceId(lastRecievedmMessageId);
-		sp.count(100);
-		
-		
-		List<Tweet> tweets = twitter.searchOperations().search(sp).getTweets();
-		System.out.println("found " + tweets.size());
-		Map<String, List<Tweet>> tweetCache = new HashMap<String, List<Tweet>>();
-		for (Tweet t : tweets) {
-
-			result.add(tweetToMessage(t));
-			if (t.getId() > lastRecievedmMessageId) {
-				lastRecievedmMessageId = t.getId();
-			}
-			if (t.getInReplyToStatusId() != null) {
-				getTweetsInReplayFor(tweetCache, t.getInReplyToScreenName(), t.getInReplyToStatusId(), result);
-			}
-		}
-
-		return result;
-	}
+	
 
 	private SocialMessage tweetToMessage(Tweet message) {
 		SocialMessage result = new SocialMessage();
 		result.setFromUser(message.getFromUser());
-		result.setMessageId(message.getId());
+		result.setMessageId(String.valueOf(message.getId()));
 		result.setMessageText(message.getText());
 
-		result.setPrevMessageId(message.getInReplyToStatusId());
+		result.setPrevMessageId(message.getInReplyToStatusId().toString());
 		result.setPrevMessageSender(message.getInReplyToScreenName());
 
 		result.setTimeStamp(message.getCreatedAt());
@@ -88,26 +66,54 @@ public class TweetFetcher implements ISocialGetter {
 	}
 
 	public static void main(String[] args) {
-		TweetFetcher tf = new TweetFetcher(null);
-		while (true) {
-			long startTime = System.currentTimeMillis();
-			System.out.println("getNextMessages");
-			List<SocialMessage> result = tf.getNextMessages();
-			System.out.println("Query took " + (System.currentTimeMillis() - startTime) + " and returned " + result.size());
-			if (!result.isEmpty()) {
-				for (SocialMessage sm : result) {
-					System.out.println(sm.getMessageText());
-				}
-				//break;
+//		TweetFetcher tf = new TweetFetcher(null);
+//		while (true) {
+//			long startTime = System.currentTimeMillis();
+//			System.out.println("getNextMessages");
+//			List<SocialMessage> result = tf.getNextMessages();
+//			System.out.println("Query took " + (System.currentTimeMillis() - startTime) + " and returned " + result.size());
+//			if (!result.isEmpty()) {
+//				for (SocialMessage sm : result) {
+//					System.out.println(sm.getMessageText());
+//				}
+//				//break;
+//			}
+//			
+//			try {
+//				Thread.currentThread().sleep(30000);
+//			} catch (InterruptedException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
+
+	}
+
+
+
+	public List<SocialMessage> getNextMessages() {
+		List<SocialMessage> result = new ArrayList<SocialMessage>();
+		SearchParameters sp = new SearchParameters("from:" + channelToFollow);
+		sp.sinceId(lastRecievedmMessageId);
+		sp.count(100);
+		
+		
+		List<Tweet> tweets = twitter.searchOperations().search(sp).getTweets();
+		System.out.println("found " + tweets.size());
+		Map<String, List<Tweet>> tweetCache = new HashMap<String, List<Tweet>>();
+		for (Tweet t : tweets) {
+
+			result.add(tweetToMessage(t));
+			if (t.getId() > lastRecievedmMessageId) {
+				lastRecievedmMessageId = t.getId();
 			}
-			
-			try {
-				Thread.currentThread().sleep(30000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			if (t.getInReplyToStatusId() != null) {
+				getTweetsInReplayFor(tweetCache, t.getInReplyToScreenName(), t.getInReplyToStatusId(), result);
 			}
 		}
 
+		return result;
 	}
+	
+
 }
