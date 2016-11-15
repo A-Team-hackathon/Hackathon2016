@@ -9,7 +9,7 @@ public class SocialMessage {
 	String messageText;
 	String fromUser;
 	ExternalIdType externalIdType;
-	Long prevMessageId;
+	String prevMessageId;
 	String prevMessageSender;
 	Integer messagePopularity;
 	
@@ -53,11 +53,11 @@ public class SocialMessage {
 		this.externalIdType = externalIdType;
 	}
 
-	public Long getPrevMessageId() {
+	public String getPrevMessageId() {
 		return prevMessageId;
 	}
 
-	public void setPrevMessageId(Long prevMessageId) {
+	public void setPrevMessageId(String prevMessageId) {
 		this.prevMessageId = prevMessageId;
 	}
 
