@@ -12,7 +12,11 @@ import org.pontis.hackathon.textanalytics.client.TextAnalyticsClientUtil;
 
 public class ComputeKeyPhrases implements DataProcessor {
 
-	protected static final String FILE_NAME = "message_keywords.csv";
+	protected String outputFileName;
+	
+	public ComputeKeyPhrases(String outputFileName){
+		this.outputFileName = outputFileName;
+	}
 	
 	@Override
 	public void process(List<SocialMessage> messages) {
@@ -29,7 +33,7 @@ public class ComputeKeyPhrases implements DataProcessor {
 		}
 		BufferedWriter writer;
 		try {
-			writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(FILE_NAME)));
+			writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFileName)));
 			writer.write(builder.toString());
 			writer.close();
 		} catch (FileNotFoundException e) {
