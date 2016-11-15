@@ -1,12 +1,16 @@
 package org.pontis.hackathon.textanalytics.client;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.pontis.hackathon.ApiException;
 import org.pontis.hackathon.textanalytics.client.api.DefaultApi;
+import org.pontis.hackathon.textanalytics.client.model.KeyPhraseBatchResultItemV2;
 import org.pontis.hackathon.textanalytics.client.model.MultiLanguageBatchInputV2;
 import org.pontis.hackathon.textanalytics.client.model.MultiLanguageInputV2;
+import org.pontis.hackathon.textanalytics.client.model.SentimentBatchResultItemV2;
 
 public class TextAnalyticsClientUtil {
 	
@@ -24,10 +28,46 @@ public class TextAnalyticsClientUtil {
 		return result;
 	}
 	
+	public static Map<String, List<String>> getKeyPhrasesBulk(List<String> inputs) {
+		Map<String, List<String>> result = new HashMap<>();
+        try {
+			List<KeyPhraseBatchResultItemV2> apiResponse = api.keyPhrases(subscriptionKey, ocpApimSubscriptionKey, buildInputBulk(inputs)).getDocuments();
+			for (KeyPhraseBatchResultItemV2 apiResponseItem : apiResponse) {
+				List<String> keyPhrases = apiResponseItem.getKeyPhrases();
+				if (keyPhrases != null && !keyPhrases.isEmpty()) {
+					Integer index = Integer.valueOf(apiResponseItem.getId());
+					result.put(inputs.get(index), keyPhrases);
+				}
+			}
+			apiResponse.get(0).getKeyPhrases();
+		} catch (ApiException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
 	public static double getSentiment(String input) {
 		double result = 0.5;
         try {
 			result = api.sentiment(subscriptionKey, ocpApimSubscriptionKey, buildInput(input)).getDocuments().get(0).getScore();
+		} catch (ApiException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	public static Map<String, Double> getSentimentBulk(List<String> inputs) {
+		Map<String, Double> result = new HashMap<>();
+		try {
+			List<SentimentBatchResultItemV2> apiResponse = api.sentiment(subscriptionKey, ocpApimSubscriptionKey, buildInputBulk(inputs)).getDocuments();
+			for (SentimentBatchResultItemV2 apiResponseItem : apiResponse) {
+				Double score = apiResponseItem.getScore();
+				if (score != null) {
+					Integer index = Integer.valueOf(apiResponseItem.getId());
+					result.put(inputs.get(index), score);
+				}
+			}
+			apiResponse.get(0).getScore();
 		} catch (ApiException e) {
 			e.printStackTrace();
 		}
@@ -42,6 +82,22 @@ public class TextAnalyticsClientUtil {
         document.setId("goat");
         document.setText(input);
 		documents.add(document);
+		multiLanguageBatchInputV2.setDocuments(documents);
+		return multiLanguageBatchInputV2;
+	}
+	
+	private static MultiLanguageBatchInputV2 buildInputBulk(List<String> inputs) {
+		MultiLanguageBatchInputV2 multiLanguageBatchInputV2 = new MultiLanguageBatchInputV2();
+        List<MultiLanguageInputV2> documents = new ArrayList<>();
+        int index = 0;
+        for (String input : inputs) {
+        	MultiLanguageInputV2 document = new MultiLanguageInputV2();
+        	document.setLanguage("en");
+        	document.setId(String.valueOf(index));
+        	document.setText(input);
+        	documents.add(document);
+        	index++;
+        }
 		multiLanguageBatchInputV2.setDocuments(documents);
 		return multiLanguageBatchInputV2;
 	}
