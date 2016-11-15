@@ -19,10 +19,11 @@ public class Application {
 		dataProcessors = new ArrayList<>();
 		dataProcessors.add(new ComputeKeyPhrases("message_keywords.csv"));
 		dataProcessors.add(new SentimentAnalysis("message_sentiment.csv"));
+		dataProcessors.add(new IntentAnalysis("message_intent.csv"));
 	}
 	
 	void doProcessing(){
-		List<SocialMessage> messages = readSocialMedia("");
+		List<SocialMessage> messages = readSocialMedia("C:\\Users\\YuvalLi\\git\\Hackathon2016\\twitter_fetcher\\twitter.csv");
 		for(final DataProcessor dataProcessor : dataProcessors){
 			dataProcessor.process(messages);
 		}
@@ -35,7 +36,7 @@ public class Application {
 			String header = reader.readLine();
 			String line = reader.readLine();
 			while(line != null){
-				String[] tokens = line.split(",");
+				String[] tokens = line.split("\t");
 				SocialMessage message = new SocialMessage();
 				message.setTimeStamp(new Date(Long.parseLong(tokens[0])));
 				message.setMessageId(tokens[1]);
@@ -45,6 +46,7 @@ public class Application {
 				message.setMessagePopularity(tokens[5] == null ? null : Integer.parseInt(tokens[5]));
 				message.setMessageText(tokens[6]);
 				messages.add(message);
+				line = reader.readLine();
 			}
 			reader.close();
 		} catch (FileNotFoundException e) {

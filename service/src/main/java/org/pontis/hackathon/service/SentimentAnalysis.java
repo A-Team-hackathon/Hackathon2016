@@ -5,7 +5,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.pontis.hackathon.datamodel.SocialMessage;
 import org.pontis.hackathon.textanalytics.client.TextAnalyticsClientUtil;
@@ -20,19 +22,21 @@ public class SentimentAnalysis implements DataProcessor {
 	
 	@Override
 	public void process(List<SocialMessage> messages) {
-		StringBuilder builder = new StringBuilder();
-		builder.append("messageId,sentiment");
+		final List<String> inputs = new ArrayList<>();
 		for(final SocialMessage message : messages){
-			double sentiment = TextAnalyticsClientUtil.getSentiment(message.getMessageText());
-			builder.append(message.getMessageId());
-			builder.append(",");
-			builder.append(sentiment);
-			builder.append("\n");
+			inputs.add(message.getMessageText());
 		}
 		BufferedWriter writer;
 		try {
 			writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFileName)));
-			writer.write(builder.toString());
+			writer.write("msgId,sentiment\n");
+			Map<String, Double> sentiments = TextAnalyticsClientUtil.getSentimentBulk(inputs);
+			for(Map.Entry<String, Double> entry : sentiments.entrySet()){
+				writer.write(entry.getKey());
+				writer.write("\t");
+				writer.write(Double.toString(entry.getValue()));
+				writer.write("\n");
+			}
 			writer.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
