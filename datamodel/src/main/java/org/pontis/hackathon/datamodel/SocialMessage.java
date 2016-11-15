@@ -92,7 +92,7 @@ public class SocialMessage {
 		sb.append(timeStamp.getTime()).append('\t').append(messageId).append('\t').append(prevMessageId==null?"":prevMessageId);
 		sb.append('\t').append(fromUser).append('\t').append(prevMessageSender==null?"":prevMessageSender);
 		sb.append('\t').append(messagePopularity).append('\t');		
-		sb.append(messageText.replaceAll("\n", " ")).append('\n');
+		sb.append(messageText.replaceAll("\n", " ").replaceAll("\t", " ")).append('\n');
 		return sb.toString();
 	}
 	

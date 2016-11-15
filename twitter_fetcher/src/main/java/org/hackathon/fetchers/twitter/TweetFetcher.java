@@ -1,14 +1,10 @@
 package org.hackathon.fetchers.twitter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.hackathon.fetchers.ISocialGetter;
 import org.pontis.hackathon.datamodel.SocialMessage;
-import org.springframework.social.twitter.api.SearchParameters;
-import org.springframework.social.twitter.api.SearchParameters.ResultType;
 import org.springframework.social.twitter.api.SearchResults;
 import org.springframework.social.twitter.api.Tweet;
 import org.springframework.social.twitter.api.impl.TwitterTemplate;
@@ -33,36 +29,36 @@ public class TweetFetcher implements ISocialGetter {
 		result.setMessageId(String.valueOf(message.getId()));
 		result.setMessageText(message.getText());
 
-		result.setPrevMessageId(message.getInReplyToStatusId().toString());
+		result.setPrevMessageId(String.valueOf(message.getInReplyToStatusId()));
 		result.setPrevMessageSender(message.getInReplyToScreenName());
 
 		result.setTimeStamp(message.getCreatedAt());
 		result.setMessagePopularity(message.getRetweetCount());
 		return result;
 	}
-
-	private void getTweetsInReplayFor(Map<String, List<Tweet>> tweetCache, String user, long messageId,
-			List<SocialMessage> result) {
-		List<Tweet> tweets = tweetCache.get(user);
-		if (tweets == null) {
-			SearchParameters sp = new SearchParameters("from:" + user);
-			sp.resultType(ResultType.RECENT);
-			sp.count(100);
-			// sp.maxId(messageId);
-			SearchResults sr = twitter.searchOperations().search(sp);
-			tweets = sr.getTweets();
-			tweetCache.put(user, tweets);
-		}
-		for (Tweet t2 : tweets) {
-			if (t2.getId() == messageId) {
-				result.add(this.tweetToMessage(t2));
-
-				if (t2.getInReplyToStatusId() != null) {
-					getTweetsInReplayFor(tweetCache, t2.getInReplyToScreenName(), t2.getInReplyToStatusId(), result);
-				}
-			}
-		}
-	}
+//
+//	private void getTweetsInReplayFor(Map<String, List<Tweet>> tweetCache, String user, long messageId,
+//			List<SocialMessage> result) {
+//		List<Tweet> tweets = tweetCache.get(user);
+//		if (tweets == null) {
+//			SearchParameters sp = new SearchParameters("from:" + user);
+//			sp.resultType(ResultType.RECENT);
+//			sp.count(100);
+//			// sp.maxId(messageId);
+//			SearchResults sr = twitter.searchOperations().search(sp);
+//			tweets = sr.getTweets();
+//			tweetCache.put(user, tweets);
+//		}
+//		for (Tweet t2 : tweets) {
+//			if (t2.getId() == messageId) {
+//				result.add(this.tweetToMessage(t2));
+//
+//				if (t2.getInReplyToStatusId() != null) {
+//					getTweetsInReplayFor(tweetCache, t2.getInReplyToScreenName(), t2.getInReplyToStatusId(), result);
+//				}
+//			}
+//		}
+//	}
 
 	public static void main(String[] args) {
 		// TweetFetcher tf = new TweetFetcher(null);

@@ -22,16 +22,16 @@ public class AllMessagesFetcher {
 			fs.close();
 		}
 
-		fs = new FileOutputStream("facebook.csv");
+		FileOutputStream fs2 = new FileOutputStream("facebook.csv");
 		try {
-			fs.write(SocialMessage.HEADER.getBytes());
+			fs2.write(SocialMessage.HEADER.getBytes());
 			FacebookFetcher f = new FacebookFetcher();
 			List<SocialMessage> msgs = f.getNextMessages();
 			for (SocialMessage sm : msgs) {
-				fs.write(sm.toCSV().getBytes());
+				fs2.write(sm.toCSV().getBytes());
 			}
 		} finally {
-			fs.close();
+			fs2.close();
 		}
 	}
 }
