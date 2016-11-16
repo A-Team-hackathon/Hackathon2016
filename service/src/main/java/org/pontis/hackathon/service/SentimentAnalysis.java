@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,26 +16,31 @@ public class SentimentAnalysis implements DataProcessor {
 	
 	protected final String outputFileName;
 	
+	protected int BULK = 500;
+	
 	public SentimentAnalysis(final String outputFileName){
 		this.outputFileName = outputFileName;
 	}
 	
 	@Override
 	public void process(List<SocialMessage> messages) {
-		final List<String> inputs = new ArrayList<>();
-		for(final SocialMessage message : messages){
-			inputs.add(message.getMessageText());
-		}
 		BufferedWriter writer;
 		try {
 			writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFileName)));
-			writer.write("msgId,sentiment\n");
-			Map<String, Double> sentiments = TextAnalyticsClientUtil.getSentimentBulk(inputs);
-			for(Map.Entry<String, Double> entry : sentiments.entrySet()){
-				writer.write(entry.getKey());
-				writer.write("\t");
-				writer.write(Double.toString(entry.getValue()));
-				writer.write("\n");
+			writer.write("msgId\tsentiment\n");
+			for(int i = 0 ; i < messages.size() / BULK; i++){
+				List<SocialMessage> sub = messages.subList(i * BULK, Math.min(i * BULK + BULK, messages.size()));
+				final Map<String, String> inputs = new HashMap<>();
+				for(final SocialMessage message : sub){
+					inputs.put(message.getMessageId(), message.getMessageText());
+				}
+				Map<String, Double> sentiments = TextAnalyticsClientUtil.getSentimentBulk(inputs);
+				for(Map.Entry<String, Double> entry : sentiments.entrySet()){
+					writer.write(entry.getKey());
+					writer.write("\t");
+					writer.write(Double.toString(entry.getValue()));
+					writer.write("\n");
+				}
 			}
 			writer.close();
 		} catch (FileNotFoundException e) {

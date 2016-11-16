@@ -35,7 +35,7 @@ public class Application {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(inputFileName)));
 			String header = reader.readLine();
 			String line = reader.readLine();
-			while(line != null){
+			while(line != null){ 
 				String[] tokens = line.split("\t");
 				SocialMessage message = new SocialMessage();
 				message.setTimeStamp(new Date(Long.parseLong(tokens[0])));
