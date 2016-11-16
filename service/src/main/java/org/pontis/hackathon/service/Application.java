@@ -3,8 +3,6 @@ package org.pontis.hackathon.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hackathon.fetchers.ISocialGetter;
-import org.hackathon.fetchers.twitter.TweetFetcher;
 import org.pontis.hackathon.datamodel.SocialMessage;
 
 public class Application {
