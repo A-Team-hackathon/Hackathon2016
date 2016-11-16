@@ -1,6 +1,7 @@
 package org.pontis.hackathon.service;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -10,22 +11,20 @@ import java.util.List;
 import org.pontis.hackathon.datamodel.SocialMessage;
 import org.pontis.hackathon.textanalytics.client.TextAnalyticsClientUtil;
 
-public class ComputeKeyPhrases implements DataProcessor {
-
-	protected static final String FILE_NAME = "keywords.csv";
+public class SentimentAnalysis implements DataProcessor {
+	
+	protected final static String FILE_NAME = "sentiment.csv";
 	
 	@Override
 	public void process(List<SocialMessage> messages) {
 		StringBuilder builder = new StringBuilder();
-		builder.append("messageId,keyword");
+		builder.append("messageId,sentiment");
 		for(final SocialMessage message : messages){
-			final List<String> phrases = TextAnalyticsClientUtil.getKeyPhrases(message.getMessageText());
-			for(final String phrase : phrases){
-				builder.append(message.getMessageId());
-				builder.append(",");
-				builder.append(phrase);
-				builder.append("\n");
-			}
+			double sentiment = TextAnalyticsClientUtil.getSentiment(message.getMessageText());
+			builder.append(message.getMessageId());
+			builder.append(",");
+			builder.append(sentiment);
+			builder.append("\n");
 		}
 		BufferedWriter writer;
 		try {
