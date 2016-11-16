@@ -12,7 +12,7 @@ import org.pontis.hackathon.textanalytics.client.TextAnalyticsClientUtil;
 
 public class SentimentAnalysis implements DataProcessor {
 	
-	protected final static String FILE_NAME = "sentiment.csv";
+	protected final static String FILE_NAME = "message_sentiment.csv";
 	
 	@Override
 	public void process(List<SocialMessage> messages) {

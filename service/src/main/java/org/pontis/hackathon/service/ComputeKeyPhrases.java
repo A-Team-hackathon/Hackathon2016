@@ -12,7 +12,7 @@ import org.pontis.hackathon.textanalytics.client.TextAnalyticsClientUtil;
 
 public class ComputeKeyPhrases implements DataProcessor {
 
-	protected static final String FILE_NAME = "keywords.csv";
+	protected static final String FILE_NAME = "message_keywords.csv";
 	
 	@Override
 	public void process(List<SocialMessage> messages) {
