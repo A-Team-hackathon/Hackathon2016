@@ -1,9 +1,9 @@
-package ateam.service;
+package org.pontis.hackathon.service;
 
 import java.util.List;
 
-import ateam.data.SocialMessage;
-import ateam.data.User;
+import org.pontis.hackathon.datamodel.SocialMessage;
+import org.pontis.hackathon.datamodel.User;
 
 public class ImportServiceImpl implements ImportService {
 	

@@ -1,7 +1,7 @@
-package ateam.service;
+package org.pontis.hackathon.service;
 
-import ateam.data.ExternalIdType;
-import ateam.data.User;
+import org.pontis.hackathon.datamodel.ExternalIdType;
+import org.pontis.hackathon.datamodel.User;
 
 public interface InternalUserResolver {
 	User resolveUser(ExternalIdType idType, String externalId);
