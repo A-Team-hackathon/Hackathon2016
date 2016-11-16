@@ -17,8 +17,8 @@ public class Application {
 	
 	public Application(){
 		dataProcessors = new ArrayList<>();
-		dataProcessors.add(new ComputeKeyPhrases("message_keywords.csv"));
-		dataProcessors.add(new SentimentAnalysis("message_sentiment.csv"));
+		//dataProcessors.add(new ComputeKeyPhrases("message_keywords.csv"));
+		//dataProcessors.add(new SentimentAnalysis("message_sentiment.csv"));
 		dataProcessors.add(new IntentAnalysis("message_intent.csv"));
 	}
 	
