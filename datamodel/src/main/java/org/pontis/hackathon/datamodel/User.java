@@ -1,4 +1,4 @@
-package ateam.data;
+package org.pontis.hackathon.datamodel;
 
 public class User {
 	String internaluserId;
