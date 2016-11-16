@@ -4,6 +4,6 @@ import java.util.List;
 
 import org.pontis.hackathon.datamodel.SocialMessage;
 
-public interface ImportService {
-	void importData(List<SocialMessage> importData);
+public interface DataProcessor {
+	void process(List<SocialMessage> messages);
 }
