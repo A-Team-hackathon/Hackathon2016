@@ -1,0 +1,24 @@
+Message ID,External User ID,User ID Type,Prev Message ID,Timestamp,Text,Weight
+T1,TheRealTrump,Twitter,,11/14/16 12:51,Do you know who was the worst president of our time?,100
+T2,TheRealTrump,Twitter,T1,11/14/16 13:51,President Obama will go down as the worst president in history,120
+F1,Pini,Facebook,,11/15/16 10:09,"Hi, I am having serious network problems with my phone",9
+F2,Pini,Facebook,F1,11/15/16 10:09,Does anyone else suffer the same network problems?,12
+F3,Eli,Facebook,,11/13/16 9:12,I can't connect to the Wi-Fi network,22
+T3,Eyal,Twitter,,11/14/16 22:25,The AT&T application is not working,11
+T4,Nir,Twitter,,11/14/16 21:00,AT&T network sucks. I am going to leave them!,33
+F3,Lior,Facebook,F2,11/15/16 10:11,"Yes, I can't connect to AT&T network too",48
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
