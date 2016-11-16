@@ -15,7 +15,7 @@ import org.pontis.hackathon.textanalytics.client.model.SentimentBatchResultItemV
 public class TextAnalyticsClientUtil {
 	
 	private final static DefaultApi api = new DefaultApi();
-	private final static String ocpApimSubscriptionKey = "9aa00ea97c5e4753b97e54507f9eb03b";
+	private final static String ocpApimSubscriptionKey = "6c760ddee6f74b89a71e42bbcdf700ad";
 	private final static String subscriptionKey = ocpApimSubscriptionKey;
 	
 	public static List<String> getKeyPhrases(String input) {
