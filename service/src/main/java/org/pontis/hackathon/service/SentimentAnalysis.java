@@ -20,19 +20,17 @@ public class SentimentAnalysis implements DataProcessor {
 	
 	@Override
 	public void process(List<SocialMessage> messages) {
-		StringBuilder builder = new StringBuilder();
-		builder.append("messageId,sentiment");
-		for(final SocialMessage message : messages){
-			double sentiment = TextAnalyticsClientUtil.getSentiment(message.getMessageText());
-			builder.append(message.getMessageId());
-			builder.append(",");
-			builder.append(sentiment);
-			builder.append("\n");
-		}
 		BufferedWriter writer;
 		try {
 			writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFileName)));
-			writer.write(builder.toString());
+			writer.write("msgId,sentiment\n");
+			for(final SocialMessage message : messages){
+				double sentiment = TextAnalyticsClientUtil.getSentiment(message.getMessageText());
+				writer.write(message.getMessageId());
+				writer.write(",");
+				writer.write(Double.toString(sentiment));
+				writer.write("\n");
+			}
 			writer.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

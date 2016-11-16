@@ -22,7 +22,7 @@ public class Application {
 	}
 	
 	void doProcessing(){
-		List<SocialMessage> messages = readSocialMedia("");
+		List<SocialMessage> messages = readSocialMedia("C:\\Users\\YuvalLi\\git\\Hackathon2016\\twitter_fetcher\\twitter.csv");
 		for(final DataProcessor dataProcessor : dataProcessors){
 			dataProcessor.process(messages);
 		}

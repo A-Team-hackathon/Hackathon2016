@@ -20,21 +20,19 @@ public class ComputeKeyPhrases implements DataProcessor {
 	
 	@Override
 	public void process(List<SocialMessage> messages) {
-		StringBuilder builder = new StringBuilder();
-		builder.append("messageId,keyword");
-		for(final SocialMessage message : messages){
-			final List<String> phrases = TextAnalyticsClientUtil.getKeyPhrases(message.getMessageText());
-			for(final String phrase : phrases){
-				builder.append(message.getMessageId());
-				builder.append(",");
-				builder.append(phrase);
-				builder.append("\n");
-			}
-		}
 		BufferedWriter writer;
 		try {
 			writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFileName)));
-			writer.write(builder.toString());
+			writer.write("msgId,keyword\n");
+			for(final SocialMessage message : messages){
+				final List<String> phrases = TextAnalyticsClientUtil.getKeyPhrases(message.getMessageText());
+				for(final String phrase : phrases){
+					writer.write(message.getMessageId());
+					writer.write(",");
+					writer.write(phrase);
+					writer.write("\n");
+				}
+			}
 			writer.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
