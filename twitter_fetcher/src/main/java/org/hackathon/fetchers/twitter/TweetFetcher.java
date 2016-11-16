@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.pontis.hackathon.datamodel.SocialMessage;
 import org.springframework.social.twitter.api.SearchParameters;
 import org.springframework.social.twitter.api.SearchParameters.ResultType;
 import org.springframework.social.twitter.api.SearchResults;
@@ -52,16 +53,15 @@ public class TweetFetcher implements ISocialGetter {
 
 	private SocialMessage tweetToMessage(Tweet message) {
 		SocialMessage result = new SocialMessage();
-		result.fromUser = message.getFromUser();
-		result.messageId = message.getId();
-		result.messageText = message.getText();
+		result.setFromUser(message.getFromUser());
+		result.setMessageId(message.getId());
+		result.setMessageText(message.getText());
 
-		result.prevMessageId = message.getInReplyToStatusId();
-		result.prevMessageSender = message.getInReplyToScreenName();
+		result.setPrevMessageId(message.getInReplyToStatusId());
+		result.setPrevMessageSender(message.getInReplyToScreenName());
 
-		result.timeStamp = message.getCreatedAt();
-		result.messagePopularity = message.getRetweetCount();
-		// message.getUser().getFollowersCount()
+		result.setTimeStamp(message.getCreatedAt());
+		result.setMessagePopularity(message.getRetweetCount());
 		return result;
 	}
 
@@ -96,7 +96,7 @@ public class TweetFetcher implements ISocialGetter {
 			System.out.println("Query took " + (System.currentTimeMillis() - startTime) + " and returned " + result.size());
 			if (!result.isEmpty()) {
 				for (SocialMessage sm : result) {
-					System.out.println(sm.messageText);
+					System.out.println(sm.getMessageText());
 				}
 				//break;
 			}
