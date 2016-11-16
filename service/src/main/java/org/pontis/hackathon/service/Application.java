@@ -9,22 +9,18 @@ import org.pontis.hackathon.datamodel.SocialMessage;
 
 public class Application {
 	
-	private List<ISocialGetter> socialGetters;
 	private List<DataProcessor> dataProcessors;
 	
 	public Application(){
-		socialGetters = new ArrayList<>();
 		dataProcessors = new ArrayList<>();
-		socialGetters.add(new TweetFetcher(""));
-		dataProcessors.add(new ComputeKeyPhrases());
+		dataProcessors.add(new ComputeKeyPhrases("message_keywords.csv"));
+		dataProcessors.add(new SentimentAnalysis("message_sentiment.csv"));
 	}
 	
 	void doProcessing(){
-		for(final ISocialGetter socialGetter : socialGetters){
-			List<SocialMessage> messages = readSocialMedia();
-			for(final DataProcessor dataProcessor : dataProcessors){
-				dataProcessor.process(messages);
-			}
+		List<SocialMessage> messages = readSocialMedia();
+		for(final DataProcessor dataProcessor : dataProcessors){
+			dataProcessor.process(messages);
 		}
 	}
 	

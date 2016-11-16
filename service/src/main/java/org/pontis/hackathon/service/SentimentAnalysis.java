@@ -12,7 +12,11 @@ import org.pontis.hackathon.textanalytics.client.TextAnalyticsClientUtil;
 
 public class SentimentAnalysis implements DataProcessor {
 	
-	protected final static String FILE_NAME = "message_sentiment.csv";
+	protected final String outputFileName;
+	
+	public SentimentAnalysis(final String outputFileName){
+		this.outputFileName = outputFileName;
+	}
 	
 	@Override
 	public void process(List<SocialMessage> messages) {
@@ -27,7 +31,7 @@ public class SentimentAnalysis implements DataProcessor {
 		}
 		BufferedWriter writer;
 		try {
-			writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(FILE_NAME)));
+			writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFileName)));
 			writer.write(builder.toString());
 			writer.close();
 		} catch (FileNotFoundException e) {
