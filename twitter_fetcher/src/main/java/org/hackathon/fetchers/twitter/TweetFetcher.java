@@ -35,7 +35,7 @@ public class TweetFetcher implements ISocialGetter {
 		result.setMessageId(String.valueOf(message.getId()));
 		result.setMessageText(message.getText());
 
-		result.setPrevMessageId(message.getInReplyToStatusId());
+		result.setPrevMessageId(message.getInReplyToStatusId().toString());
 		result.setPrevMessageSender(message.getInReplyToScreenName());
 
 		result.setTimeStamp(message.getCreatedAt());
