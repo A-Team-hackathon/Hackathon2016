@@ -1,4 +1,4 @@
-package org.hackathon.fetchers.twitter;
+package org.hackathon.fetchers;
 
 import java.util.List;
 

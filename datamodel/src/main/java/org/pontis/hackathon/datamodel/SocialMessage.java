@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class SocialMessage {
 	Date timeStamp;
-	long messageId;
+	String messageId;
 	String messageText;
 	String fromUser;
 	ExternalIdType externalIdType;
@@ -20,11 +20,11 @@ public class SocialMessage {
 		this.timeStamp = timeStamp;
 	}
 
-	public long getMessageId() {
+	public String getMessageId() {
 		return messageId;
 	}
 
-	public void setMessageId(long messageId) {
+	public void setMessageId(String messageId) {
 		this.messageId = messageId;
 	}
 
